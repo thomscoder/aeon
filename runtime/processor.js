@@ -1,5 +1,6 @@
 const { Opcodes } = require("../utils/defaults");
 
+// The processor executes the exported function
 module.exports = class Processor {
   constructor(func, params) {
     this.func = func;
@@ -20,13 +21,15 @@ module.exports = class Processor {
   #parseInstruction(instruction) {
     let result;
 
+    // We Array.prototype.reduce because we do not know in advance
+    // how many parameters are there
     switch(instruction) {
       case Opcodes.i32_add:
-        result = this.stack.reduce((prev, current) => prev + current, 0)
+        result = this.stack.reduce((prev, current) => prev + current, 0);
         return this.stack.push(result);
 
       case Opcodes.i32_sub:
-        result = this.stack.reduce((prev, current) => prev - current, 0)
+        result = this.stack.reduce((prev, current) => prev - current);
         return this.stack.push(result);
     }
   } 

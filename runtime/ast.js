@@ -1,9 +1,11 @@
 const WasmReader = require("../helpers/reader");
 const { parseExportSection, parseTypeSection, parseFunctionSection, parseCodeSection, checkHeader } = require("./parser");
 
+
+// we create an AST of the parsed module
 module.exports.createAST = (wasmBinary) => {
   const wasm = new WasmReader(wasmBinary);
-  const headers = checkHeader(wasm);
+  checkHeader(wasm);
   //console.log("headers", headers);
   const typeSection = parseTypeSection(wasm);
   //console.log("typeSection", typeSection);
@@ -15,10 +17,10 @@ module.exports.createAST = (wasmBinary) => {
   //console.log("codeSection", codeSection)
 
   const moduleAst = {
-      typeSection: typeSection,
+      typeSection,
       functionTypes,
       exportSection,
-      codeSection: codeSection,
+      codeSection,
   }
 
   //console.log("Module", moduleAst)

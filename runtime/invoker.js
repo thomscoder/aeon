@@ -1,19 +1,22 @@
 const { RuntimeErrors } = require('../utils/errors');
 const Processor = require('./processor');
 
+// we need to call the exported function(s)
 module.exports.invokeFunction = (ast, funcName, params) => {
-  let name = ast.exportSection.find(exp => exp.name === funcName);
-  if (!name) throw new Error(RuntimeErrors.ExportNotFound);
+  // we search if the export name does exists
+  // if not we throw an error
+  let exportIndex = ast.exportSection.findIndex(exp => exp.name === funcName);
+  if (exportIndex === -1) throw new Error(RuntimeErrors.ExportNotFound);
 
-  let exportDescriptor = ast.exportSection[0].desc;
-  let func = ast.codeSection[exportDescriptor];
-
-  let functionType = ast.functionTypes[exportDescriptor];
-
-  if (ast.typeSection[exportDescriptor][0].length !== params.length) {
+  // Get the exported function's body
+  let func = ast.codeSection[exportIndex];
+  // Check if the number of parameters of the exported function
+  // corresponds to the number of provided parameters
+  if (ast.typeSection[exportIndex][0].length !== params.length) {
       throw new Error(RuntimeErrors.InvalidArgumentsNumber);
   }
 
+  // execute the function
   const processor = new Processor(func, params);
   processor.executeFunc();
 

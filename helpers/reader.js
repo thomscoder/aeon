@@ -1,12 +1,8 @@
 
 module.exports = class WasmReader {
   constructor(wasm) {
-      this.data = new Uint8Array(wasm);
+      this.data = wasm;
       this.pos = 0;
-  }
-
-  len() {
-      return this.data.length;
   }
 
   dword() {
