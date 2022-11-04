@@ -12,21 +12,24 @@ module.exports = class Processor {
       if (instruction == Opcodes.get_local) {
         this.stack.push(this.params[this.func[0].shift()]);
       }
-
-      if (instruction == Opcodes.i32_add) {
-        let a = this.stack.shift();
-        let b = this.stack.shift();
-
-        while (b != 0) {
-          const carry = a & b;
-          a = a ^ b;
-          b = carry << 1;
-        } 
-        const result = a; 
-        this.stack.push(result);
-      }
+      
+      this.#parseInstruction(instruction)
     }
   }
+
+  #parseInstruction(instruction) {
+    let result;
+
+    switch(instruction) {
+      case Opcodes.i32_add:
+        result = this.stack.reduce((prev, current) => prev + current, 0)
+        return this.stack.push(result);
+
+      case Opcodes.i32_sub:
+        result = this.stack.reduce((prev, current) => prev - current, 0)
+        return this.stack.push(result);
+    }
+  } 
 
   getResult() {
     return this.stack.pop()

@@ -25,6 +25,7 @@ module.exports.Opcodes = {
 	f32_gt      : 0x5e,
 	i32_and     : 0x71,
 	i32_add     : 0x6a,
+	i32_sub 		: 0x6b,
 	f32_add     : 0x92,
 	f32_sub     : 0x93,
 	f32_mul     : 0x94,

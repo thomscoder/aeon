@@ -1,4 +1,5 @@
 const { Section, ExportSection, Opcodes } = require("../utils/defaults");
+const { RuntimeErrors } = require("../utils/errors");
 const { ValType } = require("../utils/types");
 
 function parseValueType(wasm) {
@@ -10,23 +11,23 @@ function parseValueType(wasm) {
         case ValType.i64:
             return ValType.i64;
         default:
-            throw new Error("Invalid Val type");
+            throw new Error(RuntimeErrors.InvalidValueType);
     }
 }
 
 module.exports.checkHeader = (wasm) => {
     if (wasm.length < 8) {
-        throw new Error("Runtime error");
+        throw new Error(RuntimeErrors.ModuleTooShort);
     }
 
     const magicString = String.fromCharCode(...wasm.readBytes(4));
     if (magicString !== "\0asm") {
-        throw new Error("Wrong magic number");
+        throw new Error(RuntimeErrors.InvalidMagicHeader);
     }
 
     const version = wasm.dword();
     if (version.length < 1) {
-        throw new Error("Wrong version error");
+        throw new Error(RuntimeErrors.InvalidVersionHeader);
     }
 
     return true;
@@ -36,7 +37,7 @@ module.exports.checkHeader = (wasm) => {
 module.exports.parseTypeSection = (wasm) => {
     const sectionType = wasm.readByte();
     if (typeof parseInt(sectionType) !== typeof parseInt(Section.type)) {
-        throw new Error("Invalid section type");
+        throw new Error(RuntimeErrors.InvalidSection);
     }
 
     let size = wasm.readByte();
@@ -70,7 +71,7 @@ module.exports.parseTypeSection = (wasm) => {
 module.exports.parseFunctionSection = (wasm) => {
     const isSectionFunc = wasm.readByte()
     if (isSectionFunc !== Section.func) {
-        throw new Error("Invalid section code");
+        throw new Error(RuntimeErrors.InvalidSection);
     }
 
     let sectionSize = wasm.readByte();
@@ -87,7 +88,7 @@ module.exports.parseFunctionSection = (wasm) => {
 module.exports.parseExportSection = (wasm) => {
     const isExportSection = wasm.readByte();
     if (isExportSection !== Section.export) {
-        throw new Error("Invalid section code");
+        throw new Error(RuntimeErrors.InvalidSection);
     }
 
     let sectionSize = wasm.readByte();
@@ -98,10 +99,14 @@ module.exports.parseExportSection = (wasm) => {
         const length = wasm.readByte();
         const exportName = String.fromCharCode(...wasm.readBytes(length))
 
-        if (!!exportName === false) throw new Error("Invalid export name")
+        if (!!exportName === false) throw new Error(RuntimeErrors.InvalidExportName)
 
         let zero = wasm.readByte();
-        let exportDesc = wasm.readByte() == ExportSection.func ? ExportSection.func : new Error("Invalid export type")
+        let exportDesc = (wasm.readByte() == ExportSection.func) && ExportSection.func;
+        
+        if (typeof exportDesc !== 'number' && !!exportDesc === false) {
+            throw new Error(RuntimeErrors.InvalidExportType)
+        }
      
         exportsArr.push({name: exportName.replace(/"/g, ""), desc: exportDesc})
     }
@@ -115,7 +120,7 @@ module.exports.parseCodeSection = (wasm) => {
 
     
     if (isCodeSection !== Section.code) {
-        throw new Error("Invalid section code");
+        throw new Error(RuntimeErrors.InvalidSection);
     } 
     
     let sectionSize = wasm.readByte();

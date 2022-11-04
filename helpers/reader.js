@@ -1,7 +1,7 @@
 
 module.exports = class WasmReader {
   constructor(wasm) {
-      this.data = wasm;
+      this.data = new Uint8Array(wasm);
       this.pos = 0;
   }
 
