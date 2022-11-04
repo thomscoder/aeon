@@ -1,4 +1,4 @@
-# Aeon
+# Aeon ⏳✨
 
 Aeon is an extremely tiny and easy to use WebAssembly Binary Format runtime for <a href="https://github.com/thomscoder/luna" target="_blank">Luna</a>, built for demonstration and educational purposes.
 
@@ -8,11 +8,12 @@ It is not a replacement for solid runtimes like <a href="https://wasmer.io/">Was
 
 Hence, I tried to document it as much as I could!
 
-# How to use
+# How to use❓
  - Pass the Wasm binary, the function name and parameters to the main function
  - Done (you should see the result)
 
  ```js
+const startAeonRuntime = require("./runtime/start");
  // This binary 
  // - takes 3 parameters of type `i32` (3, 127, 127, 127) 
  // - outputs one `i32` result (1, 127)
@@ -24,7 +25,7 @@ const n1 = 8;
 const n2 = 20;
 const n3 = 23;
 
-const result = startAeonRuntime(wasmBinary, n1, n2, n3);
+const result = startAeonRuntime(wasmBinary, "addNumbers", n1, n2, n3);
 console.log(`${n1} + ${n2} + ${n3} =`, result) // prints 51
  ```
 
@@ -34,4 +35,5 @@ console.log(`${n1} + ${n2} + ${n3} =`, result) // prints 51
 
 # Contribute
 If you have any suggestion, feedback or want to add features, feel free to open issues, pull requests or fork the project.
-Turn it into a npm package, embed it in your next project, build beautiful tutorials...Aeon will be able (in the near future) to be open to all the possibilities to teach Web Assembly.  
+Turn it into a npm package, embed it in your next project, build beautiful tutorials...
+Aeon will be able (in the near future) to be open to all the possibilities to teach Web Assembly.  

@@ -1,4 +1,5 @@
 const RuntimeErrors = {
+  ModuleIsEmpty: "Module is empty",
   ModuleTooShort: "Module is too short",
   InvalidMagicHeader: "Invalid magic header",
   InvalidVersionHeader: "Invalid version header",

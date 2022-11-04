@@ -74,9 +74,13 @@ const { ValType } = require("../utils/types");
 
 // We parse and check the headers (MAGIC and VERSION)
 module.exports.checkHeader = (wasm) => {
-    if (wasm.length < 8) {
+    if (wasm.data.length < 8) {
         throw new Error(RuntimeErrors.ModuleTooShort);
     }
+
+    if (wasm.data.length == 8) {
+        throw new Error(RuntimeErrors.ModuleIsEmpty)
+    };
 
     const magicString = String.fromCharCode(...wasm.readBytes(4));
     if (magicString !== "\0asm") {
