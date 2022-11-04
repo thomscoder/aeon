@@ -1,16 +1,21 @@
 # Aeon ⏳✨
 
-Aeon is an extremely tiny and easy to use WebAssembly Binary Format runtime for <a href="https://github.com/thomscoder/luna" target="_blank">Luna</a>, built for demonstration and educational purposes.
+Aeon is an extremely tiny, but easy to use WebAssembly runtime, built for demonstration and educational purposes.
+It is so tiny that supports only additions, subtractions and i32 integers. 
 
-It is part of the <a href="https://github.com/thomscoder/luna" target="_blank">Luna</a> project, so its purpose is to give an overview of how to build a custom WebAssembly runtime.
+It is part of the <a href="https://github.com/thomscoder/luna" target="_blank">Luna</a> project, so they integrate very very well.
+Its purpose is to give an high-level overview of how to build a custom WebAssembly runtime.
 
-It is not a replacement for solid runtimes like <a href="https://wasmer.io/">Wasmer</a> or <a href="https://github.com/bytecodealliance/wasmtime">Wasmtime</a>, it is just a tool that should serve as a landmark for anyone that wants to start learning the secrets of Wasm.
+It is by no means a replacement for runtimes like <a href="https://wasmer.io/">Wasmer</a> or <a href="https://github.com/bytecodealliance/wasmtime">Wasmtime</a>, it is just a tool that aims to serve as a `landmark` for anyone that wants to start learning Wasm.
 
 Hence, I tried to document it as much as I could!
 
 # How to use❓
- - Pass the Wasm binary, the function name and parameters to the main function
+Aeon was built with Luna in mind and they travel together so whatever Luna can compile, Aeon can run.
+ - Pass the Wasm binary compiled by <a href="https://luna-demo.vercel.app/" target="_blank">Luna</a>, the function name and parameters to the main function.
  - Done (you should see the result)
+
+ (Check the `./example/example.js`)
 
  ```js
 const startAeonRuntime = require("./runtime/start");
@@ -34,6 +39,9 @@ console.log(`${n1} + ${n2} + ${n3} =`, result) // prints 51
 - `Support more wasm feature` currently it supports only additions and i32 integers, but it makes it easy to add more features
 
 # Contribute
+Both Aeon and Luna are infants.
+There are tons and tons of feature they could implement. I try to keep them as much basic as possible as they should serve as a learning playground rather than making competition to other tools.
+
 If you have any suggestion, feedback or want to add features, feel free to open issues, pull requests or fork the project.
 Turn it into a npm package, embed it in your next project, build beautiful tutorials...
 Aeon will be able (in the near future) to be open to all the possibilities to teach Web Assembly.  
