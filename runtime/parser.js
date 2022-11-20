@@ -221,6 +221,7 @@ module.exports.parseCodeSection = (wasm) => {
 
         let instructions = [];
         let locals = [];
+        let internals = [];
         
         while (wasm.pos < wasm.data.length) {
             const instruction = wasm.readByte();
@@ -230,8 +231,12 @@ module.exports.parseCodeSection = (wasm) => {
             if (instruction == Opcodes.get_local) {
                 locals.push(wasm.readByte())
             }
+
+            if (instruction == Opcodes.i32_const) {
+                internals.push(wasm.readByte())
+            }
         } 
-        code.push([locals, instructions]);
+        code.push({locals, internals, instructions});
     }
 
     return code
